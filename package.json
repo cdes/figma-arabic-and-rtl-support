@@ -1,0 +1,7 @@
+{
+  "name": "figma-arabic-and-rtl-support",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ahmad Al Haddad <haddad@ah.sa>",
+  "license": "MIT"
+}
