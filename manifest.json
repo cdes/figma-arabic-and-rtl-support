@@ -1,7 +1,7 @@
 {
   "name": "Arabic & RTL Support",
   "id": "Ku8aHGSJcPKJUpX92sHIOo",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "html": "dist/ui.html",
   "script": "dist/code.js"
 }

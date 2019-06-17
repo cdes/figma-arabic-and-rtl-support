@@ -4,6 +4,10 @@
   "main": "index.js",
   "author": "Ahmad Al Haddad <haddad@ah.sa>",
   "license": "MIT",
+  "scripts": {
+    "watch": "webpack --mode=development --watch",
+    "build": "webpack --mode=production"
+  },
   "dependencies": {
     "css-loader": "^3.0.0",
     "direction": "^1.0.3",
