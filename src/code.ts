@@ -17,7 +17,7 @@ function init() {
 
 init();
 
-figma.ui.onmessage = async msg => {  
+figma.ui.onmessage = async msg => {    
   if (msg.type === 'fix-text') {
     const selection = figma.currentPage.selection;
 
@@ -26,6 +26,7 @@ figma.ui.onmessage = async msg => {
         const element = <TextNode>selection[0];
         await figma.loadFontAsync(element.fontName as FontName);
         (element as TextNode).characters = transform(msg.text, msg.options);
+        element.name = msg.text;
         element.setPluginData("original-data", JSON.stringify(msg));
       }
     }
