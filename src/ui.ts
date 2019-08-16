@@ -1,4 +1,5 @@
 import './ui.css'
+import { html as io } from './io.js';
 
 document.getElementById('arabic').onchange = (event) => {
   const target = event.target as HTMLInputElement;
@@ -34,7 +35,7 @@ function getOptions() {
 
 const fix = () => {
   const text = (document.getElementById('text') as HTMLTextAreaElement).value;
-  parent.postMessage({ pluginMessage: { type: 'fix-text', text, options: getOptions() } }, '*')
+  io.send('fix-text', {text, options: getOptions() });
 }
 
 document.getElementById('help').onclick = () => {
@@ -54,14 +55,25 @@ document.getElementById('ligatures').addEventListener("change", fix);
 document.getElementById('space-hack').addEventListener("change", fix);
 document.getElementById('text').addEventListener("input", fix);
 
-onmessage = (event) => {
-  if(event.data.pluginMessage.type === 'init') {
-    if(event.data.pluginMessage.data) {
-      (document.getElementById('text') as HTMLInputElement).value = event.data.pluginMessage.data.text;
-      (document.getElementById('arabic') as HTMLInputElement).checked = event.data.pluginMessage.data.options.arabic;
-      (document.getElementById('isolates') as HTMLInputElement).checked = event.data.pluginMessage.data.options.isolates;
-      (document.getElementById('ligatures') as HTMLInputElement).checked = event.data.pluginMessage.data.options.ligatures;
-      (document.getElementById('space-hack') as HTMLInputElement).checked = event.data.pluginMessage.data.options.spaceHack;
-    }
-  }
-}
+io.on("selection", (data) => {
+  document.getElementById('multi-selection').style.display = "none";
+  document.getElementById('no-selection').style.display = "none";
+  document.getElementById('controls').style.display = "flex";
+  (document.getElementById('text') as HTMLInputElement).value = data.text;
+  (document.getElementById('arabic') as HTMLInputElement).checked = data.options.arabic;
+  (document.getElementById('isolates') as HTMLInputElement).checked = data.options.isolates;
+  (document.getElementById('ligatures') as HTMLInputElement).checked = data.options.ligatures;
+  (document.getElementById('space-hack') as HTMLInputElement).checked = data.options.spaceHack;
+});
+
+io.on("no-selection", () => {
+  document.getElementById('no-selection').style.display = "flex";
+  document.getElementById('multi-selection').style.display = "none";
+  document.getElementById('controls').style.display = "none";
+});
+
+io.on("multi-selection", () => {
+  document.getElementById('multi-selection').style.display = "flex";
+  document.getElementById('no-selection').style.display = "none";
+  document.getElementById('controls').style.display = "none";
+});
